@@ -34,7 +34,13 @@ export default function TabLayout() {
                   flexDirection: "column",
                 }}
               >
-                <Ionicons size={24} name="briefcase-sharp" color={"#019BA2"} />
+                <Ionicons
+                  size={24}
+                  name="briefcase-sharp"
+                  color={
+                    props.accessibilityState?.selected ? "#A5A5A5" : "#019BA2"
+                  }
+                />
                 <Text style={{ textAlign: "center", fontSize: 13 }}>Jobs</Text>
               </View>
             </TouchableNativeFeedback>
@@ -42,7 +48,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="bookmarks"
         options={{
           headerTitle: "Latest Jobs",
           headerStyle: {
@@ -69,7 +75,13 @@ export default function TabLayout() {
                   flexDirection: "column",
                 }}
               >
-                <Ionicons size={23} name="bookmarks" color={"#019BA2"} />
+                <Ionicons
+                  size={23}
+                  name="bookmarks"
+                  color={
+                    props.accessibilityState?.selected ? "#A5A5A5" : "#019BA2"
+                  }
+                />
                 <Text style={{ textAlign: "center", fontSize: 13 }}>
                   Bookmarks
                 </Text>

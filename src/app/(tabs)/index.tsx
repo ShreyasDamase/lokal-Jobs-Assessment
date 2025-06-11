@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../store/reduxHook";
 import { refreshJobs, setLoading } from "../../store/slices/jobSlice";
 import JobItem from "../jobcomp/JobItem";
 
-const HomeScreen = () => {
+const JobScreen = () => {
   const dispatch = useAppDispatch();
 
   console.log("Dispatch type:", typeof dispatch); // Should be "function"
@@ -82,7 +82,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default JobScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,3 +1,4 @@
+import UseGetDate from "@/hooks/useGetDate";
 import { useAppDispatch } from "@/store/reduxHook";
 import { addBookmark, removeBookmark } from "@/store/slices/bookmarksSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -5,6 +6,7 @@ import { router } from "expo-router";
 import React from "react";
 
 import {
+  Alert,
   Image,
   Linking,
   Pressable,
@@ -21,44 +23,31 @@ type JobItemProps = {
 const JobItem: React.FC<JobItemProps> = ({ job, type }) => {
   console.log("type:", type);
   const dispatch = useAppDispatch();
-  const getDaysAgoText = (createdOn: string): string => {
-    const createdDate = new Date(createdOn);
-    const today = new Date();
 
-    let years = today.getFullYear() - createdDate.getFullYear();
-    let months = today.getMonth() - createdDate.getMonth();
-    let days = today.getDate() - createdDate.getDate();
-
-    if (days < 0) {
-      months -= 1;
-      const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-      days += prevMonth.getDate();
-    }
-
-    if (months < 0) {
-      years -= 1;
-      months += 12;
-    }
-
-    if (years === 0 && months === 0 && days === 0) return "Today";
-    if (years === 0 && months === 0 && days === 1) return "Yesterday";
-
-    const parts = [];
-    if (years > 0) parts.push(`${years} year${years > 1 ? "s" : ""}`);
-    if (months > 0) parts.push(`${months} month${months > 1 ? "s" : ""}`);
-    if (days > 0) parts.push(`${days} day${days > 1 ? "s" : ""}`);
-
-    return parts.join(", ") + " ago";
-  };
+  const { getDaysAgoText } = UseGetDate();
 
   const handleBookmark = (job: any) => {
     console.log("bookmarkId", job.id);
     dispatch(addBookmark(job));
   };
   const handleRemoveBookmark = (job: any) => {
+    Alert.alert("Are you sure you want to remove bookmark", "", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          console.log("OK Pressed");
+          dispatch(removeBookmark(job.id));
+        },
+      },
+    ]);
     console.log("bookmarkId", job.id);
 
-    dispatch(removeBookmark(job.id));
+    // dispatch(removeBookmark(job.id));
   };
   const handleLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
@@ -101,6 +90,7 @@ const JobItem: React.FC<JobItemProps> = ({ job, type }) => {
               alignItems: "center",
               gap: 5,
               flexWrap: "wrap",
+              marginTop: 4,
             }}
           >
             <View style={styles.jobTypeContainer}>
@@ -178,6 +168,7 @@ const styles = StyleSheet.create({
   },
   salary: {
     textAlign: "center",
+    fontSize: 12,
   },
   jobTypeContainer: {
     marginTop: 5,
@@ -191,6 +182,7 @@ const styles = StyleSheet.create({
 
   jobType: {
     textAlign: "center",
+    fontSize: 12,
   },
   callButton: {
     backgroundColor: "rgb(86 162 255)",

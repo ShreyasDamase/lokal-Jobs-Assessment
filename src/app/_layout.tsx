@@ -18,7 +18,7 @@ export default function RootLayout() {
   return (
     <React.Fragment>
       <Provider store={store}>
-        <Stack>
+        <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
