@@ -1,11 +1,13 @@
 import { useAppDispatch } from "@/store/reduxHook";
 import { addBookmark, removeBookmark } from "@/store/slices/bookmarksSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { router } from "expo-router";
 import React from "react";
 
 import {
   Image,
   Linking,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -64,76 +66,87 @@ const JobItem: React.FC<JobItemProps> = ({ job, type }) => {
   };
 
   return (
-    <View style={styles.container} onLayout={handleLayout}>
-      {job.creatives?.length > 0 &&
-        (job.creatives[0].file ? (
-          <Image
-            source={{ uri: job.creatives[0].file }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        ) : (
-          <Image
-            source={require("@/assets/images/placeHolder.png")}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        ))}
-      <View style={styles.details}>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          {job.title}
-        </Text>
-        <Text style={styles.company}>{job.company_name}</Text>
+    <Pressable
+      onPress={() =>
+        router.push({
+          pathname: "/job",
+          params: { job: JSON.stringify(job) },
+        })
+      }
+    >
+      <View style={styles.container} onLayout={handleLayout}>
+        {job.creatives?.length > 0 &&
+          (job.creatives[0].file ? (
+            <Image
+              source={{ uri: job.creatives[0].file }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          ) : (
+            <Image
+              source={require("@/assets/images/placeHolder.png")}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          ))}
+        <View style={styles.details}>
+          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+            {job.title}
+          </Text>
+          <Text style={styles.company}>{job.company_name}</Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 5,
-            flexWrap: "wrap",
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+              flexWrap: "wrap",
+            }}
+          >
+            <View style={styles.jobTypeContainer}>
+              <Text style={styles.jobType}>{job.job_hours}</Text>
+            </View>
+            {job.primary_details?.Salary !== "-" && (
+              <View style={styles.jobTypeContainer}>
+                <Text style={styles.salary}>
+                  {job.primary_details?.Salary || "Salary not specified"}
+                </Text>
+              </View>
+            )}
+            {job.custom_link && (
+              <TouchableOpacity
+                style={styles.callButton}
+                onPress={() => Linking.openURL(job.custom_link)}
+              >
+                <Text style={styles.callButtonText}>
+                  {job.button_text || "📞 Call"}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <Text style={styles.location}>{job.primary_details?.Place}</Text>
+          <Text style={styles.location}>{getDaysAgoText(job.created_on)}</Text>
+        </View>
+
+        <TouchableOpacity
+          style={{ margin: 8 }}
+          onPress={() => {
+            if (type === "jobs") {
+              handleBookmark(job);
+            } else handleRemoveBookmark(job);
           }}
         >
-          <View style={styles.jobTypeContainer}>
-            <Text style={styles.jobType}>{job.job_hours}</Text>
-          </View>
-          {job.primary_details?.Salary !== "-" && (
-            <View style={styles.jobTypeContainer}>
-              <Text style={styles.salary}>
-                {job.primary_details?.Salary || "Salary not specified"}
-              </Text>
-            </View>
-          )}
-          {job.custom_link && (
-            <TouchableOpacity
-              style={styles.callButton}
-              onPress={() => Linking.openURL(job.custom_link)}
-            >
-              <Text style={styles.callButtonText}>
-                {job.button_text || "📞 Call"}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        <Text style={styles.location}>{job.primary_details?.Place}</Text>
-        <Text style={styles.location}>{getDaysAgoText(job.created_on)}</Text>
+          <Ionicons
+            name={
+              type === "jobs"
+                ? "bookmark-outline"
+                : "ellipsis-horizontal-outline"
+            }
+            size={24}
+          />
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={{ margin: 8 }}
-        onPress={() => {
-          if (type === "jobs") {
-            handleBookmark(job);
-          } else handleRemoveBookmark(job);
-        }}
-      >
-        <Ionicons
-          name={
-            type === "jobs" ? "bookmark-outline" : "ellipsis-horizontal-outline"
-          }
-          size={24}
-        />
-      </TouchableOpacity>
-    </View>
+    </Pressable>
   );
 };
 

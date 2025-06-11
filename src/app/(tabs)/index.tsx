@@ -69,7 +69,7 @@ const HomeScreen = () => {
     <FlashList
       data={data}
       renderItem={renderItem}
-      keyExtractor={(item, index) =>
+      keyExtractor={(item: any, index) =>
         item === "skeleton" ? `skeleton-${index}` : item.id.toString()
       }
       estimatedItemSize={160}

@@ -2,7 +2,6 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
 import "react-native-reanimated";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
@@ -19,19 +18,12 @@ export default function RootLayout() {
   return (
     <React.Fragment>
       <Provider store={store}>
-        <SafeAreaView style={styles.safeArea}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </SafeAreaView>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
       </Provider>
     </React.Fragment>
   );
 }
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-});
