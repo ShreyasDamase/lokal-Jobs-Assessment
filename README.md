@@ -1,7 +1,11 @@
-
 # Expo App (Prebuild Setup)
 
-This is an [Expo](https://expo.dev/) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app) and initialized using the prebuild workflow (`npx expo prebuild`) for easier native customization.
+This project was bootstrapped using [`create-expo-app@latest`](https://www.npmjs.com/package/create-expo-app) and transitioned into a **prebuild workflow** using [`npx expo prebuild`](https://docs.expo.dev/workflow/prebuild/).
+
+The `expo prebuild` command generates the native `android/` and `ios/` directories, enabling full access to native code while still using the Expo SDK.  
+Learn more about it here: [Prebuild Documentation](https://docs.expo.dev/workflow/prebuild/)
+
+---
 
 ## Getting Started
 
@@ -10,30 +14,27 @@ This is an [Expo](https://expo.dev/) project created with [`create-expo-app`](ht
 ```bash
 npm install
 
-2. Run on Android
+2. Run the App
 
-npx expo run:android
+Run on Android:
 
-3. Run on iOS
+npm run android
 
-npx expo run:ios
+Run on iOS (macOS only):
 
-Requires macOS and Xcode.
+npm run ios
+
+Run on Web:
+
+npm run web
+
+Start Metro bundler:
+
+npm start
 
 
----
+> expo start is useful for launching the Metro bundler, especially for debugging or web preview.
 
-Development Tools
-
-You can open the app in:
-
-A development build
-
-The Android emulator
-
-The iOS simulator
-
-Expo Go (for projects that do not require native code changes)
 
 
 
@@ -41,31 +42,31 @@ Expo Go (for projects that do not require native code changes)
 
 Project Structure
 
-Start developing by editing the files inside the app directory.
+This project uses file-based routing via expo-router.
 
-This project uses file-based routing.
+Start development inside the app directory.
 
 
 ---
 
-Reset to Blank App
+Reset Project
 
-To reset to a blank template:
+To reset and start with a clean app/ directory:
 
 npm run reset-project
 
-This command moves the starter code to the app-example directory and gives you a fresh app directory.
+This moves the current starter code to app-example/ and creates a fresh app/ folder.
 
 
 ---
 
-Learn More
+Resources
 
 Expo Documentation
 
-Guides
+Prebuild Workflow Guide
 
-Tutorial
+Expo Router Docs
 
 
 
@@ -76,6 +77,4 @@ Community
 Expo GitHub
 
 Expo Discord
-
-
 
